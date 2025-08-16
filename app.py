@@ -1,145 +1,201 @@
+import os
 import streamlit as st
 import pandas as pd
-import os
-import webcolors
-from difflib import get_close_matches
+from difflib import SequenceMatcher
 
-# Load dataset
-df = pd.read_csv('styles.csv', on_bad_lines='skip', encoding='utf-8')
+st.set_page_config(page_title="AI Outfit Recommendation System", page_icon="👗", layout="wide")
 
-# Normalize dataset columns
-for col in ['gender', 'usage', 'baseColour', 'articleType']:
-    if col in df.columns:
-        df[col] = df[col].astype(str).str.lower().str.strip()
-    else:
-        st.error(f"Column '{col}' missing in dataset!")
-        st.stop()
+# 👇 set your local image path here
+IMAGE_PATH = r"C:\Users\SAKSHI VERMA\OneDrive\Desktop\AI Outfit Recomendation\AI-Outfit-Recomendation-\images"
 
-# Prepare image paths
-df['image_path'] = 'images/' + df['id'].astype(str) + '.jpg'
+@st.cache_data(show_spinner=False)
+def load_data():
+    df = pd.read_csv("styles.csv", on_bad_lines="skip")
+    # removed 'year' column
+    needed_cols = ["id","gender","masterCategory","subCategory","articleType","baseColour","season","usage","productDisplayName"]
+    df = df[needed_cols].copy()
+    for col in ["gender","masterCategory","subCategory","articleType","baseColour","season","usage","productDisplayName"]:
+        df[col] = df[col].astype(str).str.strip()
+    df_norm = df.copy()
+    for col in ["gender","baseColour","season","usage"]:
+        df_norm[col] = df_norm[col].str.lower()
+    return df, df_norm
 
-# Derived Columns
-def map_color_group(color):
-    color = str(color).lower()
-    if color in ['red', 'orange', 'yellow', 'maroon']:
-        return 'warm'
-    elif color in ['blue', 'green', 'purple', 'cyan']:
-        return 'cool'
-    elif color in ['white', 'grey', 'black']:
-        return 'neutral'
-    elif color in ['brown', 'olive', 'beige']:
-        return 'natural'
-    elif color in ['pink', 'lime', 'teal']:
-        return 'bright'
-    else:
-        return 'unknown'
+def get_image_path(product_id):
+    """Return path to image if it exists, else None"""
+    for ext in [".jpg", ".jpeg", ".png"]:  # check common extensions
+        img_path = os.path.join(IMAGE_PATH, str(product_id) + ext)
+        if os.path.exists(img_path):
+            return img_path
+    return None
 
-def map_weather(article):
-    article = str(article).lower()
-    if any(word in article for word in ['jacket', 'sweater', 'coat', 'hoodie']):
-        return 'cold'
-    elif any(word in article for word in ['t-shirt', 'shorts', 'tank']):
-        return 'hot'
-    elif any(word in article for word in ['rain', 'waterproof']):
-        return 'rainy'
-    else:
-        return 'cool'
+def map_gender(user_gender: str):
+    g = (user_gender or "").strip().lower()
+    if g in ["female","woman","women"]:
+        return ["women"]
+    if g in ["male","man","men"]:
+        return ["men"]
+    if g in ["boy","boys"]:
+        return ["boys"]
+    if g in ["girl","girls"]:
+        return ["girls"]
+    if g in ["unisex"]:
+        return ["unisex"]
+    return ["women","men","boys","girls","unisex"]
 
-df['color_group'] = df['baseColour'].apply(map_color_group)
-df['weather_compatibility'] = df['articleType'].apply(map_weather)
-df['popularity_score'] = 0
+def map_occasion(user_occ: str, df_norm):
+    o = (user_occ or "").strip().lower()
+    uniques = sorted(x for x in df_norm["usage"].dropna().unique())
+    mapping = {
+        "casual": ["casual","smart casual"],
+        "formal": ["formal"],
+        "sports": ["sports"],
+        "party": ["party"],
+        "ethnic": ["ethnic"],
+        "travel": ["travel"],
+        "home": ["home"],
+        "any": uniques
+    }
+    return mapping.get(o, uniques)
 
-# Streamlit UI
-st.title("👗 AI Outfit Recommendation System")
+def map_weather(user_weather: str, df_norm):
+    w = (user_weather or "").strip().lower()
+    uniques = sorted(x for x in df_norm["season"].dropna().unique())
+    mapping = {
+        "hot": ["summer"],
+        "cold": ["winter"],
+        "mild": ["spring","fall"],
+        "rainy": ["spring","fall"],
+        "any": uniques
+    }
+    return mapping.get(w, uniques)
 
-# Sidebar Inputs
-st.sidebar.header("Tell us about yourself")
-gender = st.sidebar.selectbox("Gender", ["Female", "Male", "Other"]).lower()
-body_type = st.sidebar.selectbox("Body Type", ["Slim", "Average", "Curvy", "Athletic"]).lower()
-occasion = st.sidebar.selectbox("Occasion", ["Casual", "Formal", "Party", "Workout"]).lower()
-weather = st.sidebar.selectbox("Weather", ["Hot", "Cold", "Rainy"]).lower()
-fav_color = st.sidebar.color_picker("Pick your favorite color")
-
-color_group_option = st.sidebar.selectbox("Color Group (Mood of Color)", ["Any", "warm", "cool", "neutral", "natural", "bright"])
-weather_option = st.sidebar.selectbox("Weather Compatibility", ["Any", "hot", "cold", "cool", "rainy"])
-
-# Updated color functions using fallback
-def closest_colour(requested_colour):
+def fuzzy_match_ratio(a: str, b: str):
     try:
-        color_dict = webcolors.CSS3_NAMES_TO_HEX
-    except AttributeError:
-        color_dict = {
-            'white': '#ffffff', 'black': '#000000', 'red': '#ff0000', 'blue': '#0000ff', 'green': '#008000'
-        }  # fallback if CSS3 not found
+        return SequenceMatcher(None, a.lower(), b.lower()).ratio()
+    except Exception:
+        return 0.0
 
-    min_colours = {}
-    for name, hex_code in color_dict.items():
-        r_c, g_c, b_c = webcolors.hex_to_rgb(hex_code)
-        rd = (r_c - requested_colour[0]) ** 2
-        gd = (g_c - requested_colour[1]) ** 2
-        bd = (b_c - requested_colour[2]) ** 2
-        min_colours[(rd + gd + bd)] = name
-    return min_colours[min(min_colours.keys())]
+# --- Color helpers ---
+BASIC_COLOR_BUCKETS = {
+    "black": (0,0,0),
+    "white": (255,255,255),
+    "red": (255,0,0),
+    "green": (0,128,0),
+    "blue": (0,0,255),
+    "yellow": (255,255,0),
+    "orange": (255,165,0),
+    "purple": (128,0,128),
+    "pink": (255,192,203),
+    "brown": (150,75,0),
+    "grey": (128,128,128),
+    "navy": (0,0,128)
+}
 
-def get_colour_name(hex_code):
+def hex_to_rgb(h):
+    h = h.strip().lstrip("#")
+    if len(h) != 6:
+        return None
     try:
-        return webcolors.hex_to_name(hex_code)
-    except ValueError:
-        r, g, b = webcolors.hex_to_rgb(hex_code)
-        return closest_colour((r, g, b))
+        return tuple(int(h[i:i+2], 16) for i in (0,2,4))
+    except Exception:
+        return None
 
-# Get closest color name
-color_name = get_colour_name(fav_color).lower()
+def closest_basic_color_name_from_hex(hex_color: str):
+    rgb = hex_to_rgb(hex_color)
+    if rgb is None:
+        return None
+    def dist(a,b):
+        return sum((a[i]-b[i])**2 for i in range(3))
+    best = min(BASIC_COLOR_BUCKETS.items(), key=lambda kv: dist(rgb, kv[1]))[0]
+    return best
 
-# Show selected preferences
-st.subheader("🧾 Your Preferences")
-st.markdown(f"- Gender: **{gender.capitalize()}**")
-st.markdown(f"- Body Type: **{body_type.capitalize()}**")
-st.markdown(f"- Occasion: **{occasion.capitalize()}**")
-st.markdown(f"- Weather: **{weather.capitalize()}**")
-st.markdown(f"- Favorite Color (Hex): **{fav_color}**")
-st.markdown(f"- Closest Color Name: **{color_name}**")
-
-# Filtering Logic
-filtered_df = df.copy()
-
-# Filter gender
-if gender != "other":
-    filtered_df = filtered_df[filtered_df['gender'].str.contains(gender, na=False)]
-
-# Filter by occasion
-filtered_df = filtered_df[filtered_df['usage'].str.contains(occasion, na=False)]
-
-# Filter by color name match (relaxed)
-color_matches = get_close_matches(color_name, df['baseColour'].unique(), n=1, cutoff=0.3)
-if color_matches:
-    filtered_df = filtered_df[filtered_df['baseColour'].str.contains(color_matches[0], na=False)]
-
-# Filter by color group
-if color_group_option != "Any":
-    filtered_df = filtered_df[filtered_df['color_group'] == color_group_option]
-
-# Filter by weather
-if weather_option != "Any":
-    filtered_df = filtered_df[filtered_df['weather_compatibility'] == weather_option]
-
-# Debug row counts (optional)
-# st.write("After filters, rows:", len(filtered_df))
-
-# Output
-st.write(f"🎯 Total matching outfits: {len(filtered_df)}")
-
-# Display outfits
-st.subheader("👕 Recommended Outfits")
-if filtered_df.empty:
-    st.warning("No matching outfits found. Try adjusting the filters.")
-else:
-    for _, row in filtered_df.head(10).iterrows():
-        if os.path.exists(row['image_path']):
-            st.image(row['image_path'], caption=row.get('productDisplayName', 'No name'), width=250)
-            if st.button(f"❤️ Like this - ID {row['id']}", key=row['id']):
-                df.loc[df['id'] == row['id'], 'popularity_score'] += 1
-                df.to_csv('styles_enhanced.csv', index=False)
-                st.success("Thanks for liking! 💖")
+def recommend(df, df_norm, gender="Female", occasion="Casual", weather="Hot", color_name="black", top_k=20):
+    genders = map_gender(gender)
+    usages = map_occasion(occasion, df_norm)
+    seasons = map_weather(weather, df_norm)
+    color = (color_name or "").strip().lower()
+    
+    filt = df_norm[
+        df_norm["gender"].isin(genders)
+        & df_norm["usage"].isin(usages)
+        & df_norm["season"].isin(seasons)
+    ].copy()
+    
+    if color and color != "any":
+        filt["color_score"] = filt["baseColour"].apply(
+            lambda c: 1.0 if color in c else fuzzy_match_ratio(color, c)
+        )
+        filt = filt.sort_values("color_score", ascending=False)
+        if not filt.empty and filt["color_score"].max() < 0.35:
+            pass
         else:
-            st.markdown(f"🖼️ Image not found for ID {row['id']}")
+            filt = filt.head(800)
+    else:
+        filt["color_score"] = 0.0
+    
+    if filt.empty:
+        filt = df_norm[df_norm["gender"].isin(genders) & df_norm["usage"].isin(usages)].copy()
+        filt["color_score"] = filt["baseColour"].apply(lambda c: fuzzy_match_ratio(color, c) if color else 0.0)
+    if filt.empty:
+        filt = df_norm[df_norm["gender"].isin(genders)].copy()
+        filt["color_score"] = filt["baseColour"].apply(lambda c: fuzzy_match_ratio(color, c) if color else 0.0)
+    if filt.empty:
+        filt = df_norm.copy()
+        filt["color_score"] = 0.0
+    
+    # sort only by color_score (year removed)
+    filt = filt.sort_values(["color_score"], ascending=[False])
+    
+    # no 'year' column anymore
+    out = df.loc[filt.index, ["id","gender","usage","season","baseColour","articleType","productDisplayName"]].head(top_k)
+    return out
+
+df, df_norm = load_data()
+
+with st.sidebar:
+    st.header("Tell us about yourself")
+    gender = st.selectbox("Gender", ["Female","Male","Unisex","Girls","Boys"], index=0)
+    occasion = st.selectbox("Occasion", ["Casual","Formal","Party","Sports","Ethnic","Travel","Home","Any"], index=0)
+    weather = st.selectbox("Weather", ["Hot","Cold","Mild","Any"], index=0)
+    picked_hex = st.color_picker("Pick your favorite color", value="#000000")
+    typed_color = st.text_input("...or type a color name (optional)", value="black")
+    effective_color = typed_color.strip() or (closest_basic_color_name_from_hex(picked_hex) or "any")
+    topk = st.slider("How many recommendations?", 5, 50, 20, 5)
+    st.caption(f"Using color: **{effective_color}** (derived from your input). Set to 'Any' to relax color filter.")
+
+st.title("👗 AI Outfit Recommendation System")
+st.write("We match your preferences to Myntra-style data and show the best-fitting items.")
+
+with st.expander("Your Preferences", expanded=True):
+    st.write(f"- Gender: **{gender}**")
+    st.write(f"- Occasion: **{occasion}**")
+    st.write(f"- Weather: **{weather}**")
+    st.write(f"- Favorite Color: **{effective_color}**")
+
+recs = recommend(df, df_norm, gender=gender, occasion=occasion, weather=weather, color_name=effective_color, top_k=topk)
+
+st.subheader("👕 Recommended Outfits")
+if recs.empty:
+    st.warning("No matching outfits found. Try relaxing a filter (e.g., set color to Any).")
+else:
+    for _, row in recs.iterrows():
+        img_path = get_image_path(row['id'])
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            if img_path:
+                st.image(img_path, caption=row['productDisplayName'], width=180)
+            else:
+                st.text("❌ No image")
+        with col2:
+            st.markdown(f"**{row['productDisplayName']}**")
+            st.write(f"👤 Gender: {row['gender']}")
+            st.write(f"🎯 Occasion: {row['usage']}")
+            st.write(f"🌤️ Season: {row['season']}")
+            st.write(f"🎨 Color: {row['baseColour']}")
+            st.write(f"👕 Article Type: {row['articleType']}")
+
+    csv = recs.to_csv(index=False).encode("utf-8")
+    st.download_button("Download recommendations as CSV", data=csv, file_name="recommendations.csv", mime="text/csv")
+
+st.caption("Note: Body type isn't available in the dataset, so it's not used for filtering.")
