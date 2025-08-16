@@ -5,8 +5,8 @@ from difflib import SequenceMatcher
 
 st.set_page_config(page_title="AI Outfit Recommendation System", page_icon="👗", layout="wide")
 
-# 👇 set your local image path here
-IMAGE_PATH = r"C:\Users\SAKSHI VERMA\OneDrive\Desktop\AI Outfit Recomendation\AI-Outfit-Recomendation-\images"
+# 👇 Use relative path for GitHub/Streamlit Cloud
+IMAGE_PATH = "images"
 
 @st.cache_data(show_spinner=False)
 def load_data():
@@ -147,7 +147,6 @@ def recommend(df, df_norm, gender="Female", occasion="Casual", weather="Hot", co
     # sort only by color_score (year removed)
     filt = filt.sort_values(["color_score"], ascending=[False])
     
-    # no 'year' column anymore
     out = df.loc[filt.index, ["id","gender","usage","season","baseColour","articleType","productDisplayName"]].head(top_k)
     return out
 
