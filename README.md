@@ -23,7 +23,7 @@ Fuzzy String Matching – Ensures accurate color and style suggestions.
 
 🚀 Live Demo
 
-Try it now: [Vestiary Live App](https://vestiary-bajfr59estjjqeum5fmpgx.streamlit.app/)
+Try it now: [Vestiary Live App](https://lnkd.in/g8Y2WwPv)
 
 📂 Dataset
 * Fashion data stored in `styles.csv`
