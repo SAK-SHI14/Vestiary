@@ -1,37 +1,50 @@
- 🪄 Vestiary – AI-Powered Outfit Recommender
+# 🪄 Vestiary – AI-Powered Outfit Recommender  
 
-Find the perfect outfit for any occasion, any weather – in seconds!** Vestiary uses AI and fashion data to generate personalized outfit recommendations based on your style preferences.
+✨ Your personal AI stylist that helps you find the *perfect outfit* for any occasion, any weather – in just seconds!  
 
-🔹 Features
+---
 
-* 👗 Personalized Recommendations:** Suggests outfits based on gender, occasion, weather, and your favorite colors.
-* 🎨 Smart Color Matching:** Matches your preferred colors (or hex codes) to clothing items.
-* 🏷️ Detailed Info:** Shows season, usage, article type, and more for each outfit.
-* ⚡ Fast & Interactive:** Built on Streamlit for instant results with an intuitive interface.
+## 🔹 Features  
+- 👗 **Personalized Recommendations** → Outfits tailored by gender, occasion, weather, and color preferences.  
+- 🎨 **Smart Color Matching** → Matches favorite colors (even HEX codes!) to clothing items.  
+- 🏷️ **Rich Outfit Details** → Displays article type, season, usage, and more.  
+- ⚡ **Fast & Interactive** → Built with Streamlit for instant results and a smooth user experience.  
 
-💻 Tech Stack
+---
 
-Python – Core language for data processing and logic.
-Pandas – For handling fashion dataset efficiently.
-Streamlit – Interactive dashboard for user-friendly recommendations.
-Fuzzy String Matching – Ensures accurate color and style suggestions.
+## 💻 Tech Stack  
+- **Python** – Core logic & data processing  
+- **Pandas** – Efficient dataset handling (50k+ records)  
+- **Streamlit** – Interactive web app & UI  
+- **Fuzzy String Matching** – Smart color/style matching  
 
-🔧 How It Works
-1. User Input: Choose your gender, occasion, weather, and favorite color(s).
-2. Recommendation Engine: Filters and ranks outfits using AI logic and fuzzy matching.
-3. Display: Shows recommended outfits with images, color info, season, and type.
+---
 
-🚀 Live Demo
+## 🔧 How It Works  
+1. **User Input** → Select gender, occasion, weather, and colors.  
+2. **Recommendation Engine** → Filters + ranks outfits using AI logic & fuzzy matching.  
+3. **Output Display** → Instant preview with outfit images, details, and color highlights.  
 
-Try it now: [Vestiary Live App](https://lnkd.in/g8Y2WwPv)
+---
 
-📂 Dataset
-* Fashion data stored in `styles.csv`
-* Images stored in `images/` directory
+## 📂 Dataset  
+- `styles.csv` → Fashion dataset with metadata  
+- `images/` → Clothing images used for previews  
 
-⚡ Future Enhancements
-* Add AI-driven style suggestions based on user history
-* Integrate outfit sharing and social features
-* Add seasonal trend analysis.
+---
 
-Do you want me to do that too?
+## 🚀 Live Demo  
+👉 Try it here: [Vestiary Live App](https://lnkd.in/g8Y2WwPv)  
+
+📌 Reposi
+---
+
+## ✨ Future Enhancements  
+- 🔄 Add user feedback loop (ratings → smarter suggestions).  
+- 🧠 Integrate NLP to understand free-text style inputs (“Show me party outfits in red”).  
+- 📱 Deploy as a mobile app for on-the-go outfit suggestions.  
+
+---
+
+## 🌐 Connect & Showcase  
+- 💼 LinkedIn Post: [Project Walkthrough](https://www.linkedin.com/posts/sakshi-verma-841045285_vestiary-your-ai-stylist-activity-7362511170848612353-15JD?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEU9OnEBaBEIQXaz-TIOqDeb7BKd_AFZl-w)  
