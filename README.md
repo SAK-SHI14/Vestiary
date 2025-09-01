@@ -36,7 +36,6 @@
 ## 🚀 Live Demo  
 👉 Try it here: [Vestiary Live App](https://lnkd.in/g8Y2WwPv)  
 
-📌 Reposi
 ---
 
 ## ✨ Future Enhancements  
