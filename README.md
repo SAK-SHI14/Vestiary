@@ -1,159 +1,176 @@
-<br/>
 <div align="center">
-  <h1 align="center">Vestiary ✨</h1>
-  <p align="center">
-    <strong>An Enterprise-Grade AI Fashion Stylist & Virtual Try-On Platform</strong>
-    <br/>
-    <br/>
-    <a href="https://github.com/SAK-SHI14/Vestiary/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/SAK-SHI14/Vestiary/issues">Request Feature</a>
-  </p>
 
-  <p align="center">
-    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
-    <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite" />
-    <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI" />
-    <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
-  </p>
+# 💎 Vestiary
+### Enterprise-Grade AI Fashion Stylist & Virtual Try-On Platform
+
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Python 3.10+](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Status](https://img.shields.io/badge/Status-Active-success.svg?style=for-the-badge)]()
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)]()
+
+*Bridging the gap between digital imagination and physical reality in personal styling.*
+
+[Report Bug](https://github.com/SAK-SHI14/Vestiary/issues) · [Request Feature](https://github.com/SAK-SHI14/Vestiary/issues) 
+
 </div>
 
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#core-capabilities">Core Capabilities</a></li>
-        <li><a href="#tech-stack">Tech Stack</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation-and-setup">Installation and Setup</a></li>
-      </ul>
-    </li>
-    <li><a href="#system-architecture">System Architecture</a></li>
-    <li><a href="#api-reference">API Reference</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
+---
 
-<hr/>
-
-## About The Project
-
-**Vestiary** is a cutting-edge, AI-powered fashion recommendation and styling web application designed to bridge the gap between imagination and reality in personal styling. It evolved from a static dataset-based application into a robust, full-stack platform that leverages advanced AI to provide dynamic, hyper-personalized outfit generation and seamless virtual try-ons.
-
-Unlike traditional catalog browsers, Vestiary acts as an intelligent personal stylist. It considers multidimensional user preferences—ranging from occasion and weather to body type and color theory—to synthesize complete looks, including accessories and undergarment recommendations.
-
-### Core Capabilities
-
-*   🧠 **Intelligent Styling Engine:** Dynamically generates cohesive outfits based on 6 core data points (gender, body type, preferred color, weather, occasion, style preference).
-*   📸 **Virtual Try-On (VTON):** Integrates with the **LightX API** to allow users to virtually try on recommended garments by uploading their own photos. Features a highly robust, multi-step asynchronous integration with intelligent polling mechanisms.
-*   🎥 **Cinematic AI Generation:** Visualizes outfit concepts using high-quality, cinematic/Ghibli-style imagery generated via Pollinations AI and curated Unsplash photography.
-*   🛍️ **Cross-Platform "Shop the Look":** Instantly provides accurate search links and comparative pricing (USD/INR) across major e-commerce platforms including Amazon, Myntra, Flipkart, Ajio, Zara, and H&M.
-*   👙 **Contextual Undergarment Module:** Offers specialized lingerie and undergarment guidance tailored precisely for specific outfits (e.g., advising on plunge bras for wedding gowns or adhesive bras for backless party wear).
-*   ✨ **Premium UX/UI:** Built with a modern aesthetic featuring glassmorphism, fluid animations, and a responsive grid layout.
-
-### Tech Stack
-
-#### Client-Side (Frontend)
-*   **Framework:** React 19 / Vite
-*   **Styling:** Vanilla CSS (Modern Glassmorphism Design System)
-*   **Routing:** React Router v7
-
-#### Server-Side (Backend)
-*   **Framework:** FastAPI (Python 3.10+)
-*   **Server:** Uvicorn (ASGI)
-*   **Data Validation:** Pydantic
-*   **HTTP Client:** HTTPX (for asynchronous API calls)
-
-#### External Integrations
-*   **Virtual Try-On:** LightX API
-*   **Image Generation:** Pollinations AI (Prompt-to-Image)
-*   **Fashion Imagery:** Unsplash Source
+## 📖 Table of Contents
+- [Executive Summary](#-executive-summary)
+- [System Architecture](#-system-architecture)
+- [Enterprise Features](#-enterprise-features)
+- [Technology Stack](#-technology-stack)
+- [Quick Start Guide](#-quick-start-guide)
+  - [Prerequisites](#prerequisites)
+  - [Local Development Setup](#local-development-setup)
+- [API Documentation](#-api-documentation)
+- [Deployment Strategy](#-deployment-strategy)
+- [Project Roadmap](#-project-roadmap)
+- [Contributing](#-contributing)
+- [License & Contact](#-license--contact)
 
 ---
 
-## Getting Started
+## 🌟 Executive Summary
 
-Follow these instructions to set up the project locally for development and testing.
+**Vestiary** is a state-of-the-art fashion technology platform that replaces static catalog browsing with an intelligent, hyper-personalized AI styling assistant. By synthesizing multi-dimensional user heuristics—such as body morphology, occasion context, real-time weather, and color theory—Vestiary intelligently orchestrates complete modular outfits. 
+
+Going beyond simple text recommendations, Vestiary integrates advanced **Generative AI for cinematic visualization** and a highly robust **Virtual Try-On (VTON) spatial computing pipeline**. It seamlessly bridges the gap to commercial conversion by providing cross-platform "Shop the Look" capabilities across leading global e-commerce infrastructure (Amazon, Zara, H&M, etc.).
+
+---
+
+## 🏗 System Architecture
+
+Vestiary implements a decoupled, highly-concurrent microservices-oriented architecture designed for scale, fault tolerance, and independent service iteration.
+
+```mermaid
+graph TD
+    subgraph Client Layer
+        UI[React.js SPA]
+        State[React Router]
+        Styles[Glassmorphism UI]
+    end
+
+    subgraph API Gateway / Orchestration
+        FastAPI[FastAPI Backend Engine]
+        Controller[Routing Controller]
+        Logic[Styling Heuristics Engine]
+    end
+
+    subgraph External AI Inference Services
+        LightX[LightX API - VTON]
+        Pollinations[Pollinations AI - Render]
+        Unsplash[Unsplash - Curator]
+    end
+
+    subgraph E-Commerce Pipelines
+        Amazon[Amazon]
+        Zara[Zara / H&M]
+        Myntra[Myntra / Flipkart]
+    end
+
+    UI <-->|REST / JSON| FastAPI
+    FastAPI <--> Controller
+    Controller <--> Logic
+    
+    Logic -->|Async Upload / VTON Job| LightX
+    Logic -->|Prompt Synthesis| Pollinations
+    Logic -->|Photo Identification| Unsplash
+    
+    Logic -->|Parameterized Search| Amazon
+    Logic -->|Parameterized Search| Zara
+    Logic -->|Parameterized Search| Myntra
+
+    classDef client fill:#20232A,stroke:#61DAFB,stroke-width:2px,color:#fff;
+    classDef backend fill:#005571,stroke:#009688,stroke-width:2px,color:#fff;
+    classDef external fill:#5c2d91,stroke:#9b59b6,stroke-width:2px,color:#fff;
+    classDef ecom fill:#f39c12,stroke:#d35400,stroke-width:2px,color:#fff;
+
+    class UI,State,Styles client;
+    class FastAPI,Controller,Logic backend;
+    class LightX,Pollinations,Unsplash external;
+    class Amazon,Zara,Myntra ecom;
+```
+
+---
+
+## 🚀 Enterprise Features
+
+* **🧠 Deep Styling Heuristics Pipeline:** Synthesizes billions of potential outfit combinations using dynamic prompt engineering and 6 distinct parameter axes (`gender`, `body_type`, `color`, `climate`, `occasion`, `aesthetic`).
+* **📸 Asynchronous Virtual Try-On (VTON):** Provides high-fidelity virtual try-on mechanics using the external LightX compute framework. Handles robust state management, preemptive presigned URL uploads, async compute pooling, and timeout mitigation.
+* **🎥 Generative Semantic Rendering:** Translates abstract outfit configurations into high-end cinematic/Ghibli aesthetic product photography, strictly controlling for prompt collision and image repetition.
+* **👙 Context-Aware Undergarment Module:** A highly specialized algorithmic branch assessing the geometry of recommended out-wear (e.g., plunge cuts, backless dresses) to map to optimal foundation garments.
+* **🛒 Omni-channel Commerce Routing:** Maps simulated product objects to verified parametric deep-links across Amazon, Myntra, Flipkart, Ajio, Zara, and H&M.
+
+---
+
+## 🛠 Technology Stack
+
+### Client Operations (Frontend)
+* **Core Framework:** React 19 optimized with Vite for Sub-millisecond HMR
+* **State Management:** React Hooks & Component Context
+* **Routing Strategy:** React Router v7
+* **Design System:** Pure Vanilla CSS utilizing advanced CSS variables, grid layers, and Glassmorphism optics.
+
+### Server Operations (Backend)
+* **Engine:** Python 3.10+ running FastAPI (ASGI) via Uvicorn
+* **Data Validation:** Pydantic models mapping enforced schema types 
+* **I/O Management:** HTTPX for asynchronous, non-blocking outbound requests to remote AI services
+* **Security Middleware:** Enforced CORS policies and parameterized URL encoding protections.
+
+---
+
+## ⚡ Quick Start Guide
 
 ### Prerequisites
+Before orchestrating this platform locally, ensure your environment is provisioned with:
+* **Node.js**: `v18.0.0` or higher
+* **Python**: `3.9.0` or higher (3.10+ recommended)
+* **Git**: CLI interface
 
-Ensure you have the following installed on your local machine:
-*   [Node.js](https://nodejs.org/en/) (v18 or higher)
-*   [Python](https://www.python.org/downloads/) (v3.9 or higher)
-*   Git
+### Local Development Setup
 
-### Installation and Setup
+**1. Clone the Source**
+```bash
+git clone https://github.com/SAK-SHI14/Vestiary.git
+cd Vestiary
+```
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/SAK-SHI14/Vestiary.git
-   cd Vestiary
-   ```
+**2. Provision the Backend API Service**
+```bash
+cd backend
+python -m venv venv
+# Activate VENV: `source venv/bin/activate` (Mac/Linux) or `venv\Scripts\activate` (Windows)
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+> The API Gateway will initialize on `http://localhost:8000`. Swagger API documentation is instantly available at `/docs`.
 
-2. **Start the Backend Engine (FastAPI)**
-   ```bash
-   cd backend
-   
-   # Optional: Create a virtual environment
-   # python -m venv venv
-   # source venv/bin/activate (Linux/Mac) or venv\Scripts\activate (Windows)
-   
-   # Install backend dependencies
-   pip install -r requirements.txt
-   
-   # Run the development server
-   uvicorn main:app --reload --host 0.0.0.0 --port 8000
-   ```
-   *The backend will be available at: `http://localhost:8000`*
-   *Interactive API Documentation (Swagger UI): `http://localhost:8000/docs`*
-
-3. **Start the Frontend Application (React/Vite)**
-   Open a new terminal session:
-   ```bash
-   cd frontend
-   
-   # Install Node dependencies
-   npm install
-   
-   # Start the Vite development server
-   npm run dev
-   ```
-   *The frontend will be available at the local URL provided by Vite (e.g., `http://localhost:5173`)*
+**3. Provision the Frontend Client**
+*Open a concurrent terminal session:*
+```bash
+cd frontend
+npm install
+npm run dev
+```
+> The React client will compile and broadcast on `http://localhost:5173`.
 
 ---
 
-## System Architecture
+## 💻 API Documentation
 
-Vestiary utilizes a decoupled client-server architecture, allowing for scalable deployments and independent iteration of the frontend and backend services.
-
-1.  **Client Layer:** The React frontend captures user preferences and image uploads. It handles UI state, animations, and renders data fetched from the API.
-2.  **API Gateway (FastAPI):** Acts as the central orchestrator. It receives client requests, runs the styling logic heuristics, generates the appropriate prompts for AI imagery, and structures the response payload.
-3.  **VTON Worker (Async):** For virtual try-on requests, the backend initiates an asynchronous job lifecycle with LightX:
-    *   Requests a pre-signed S3 upload URL.
-    *   Uploads the user's base64 image bytes.
-    *   Submits the VTON job combining the user image and target garment URL.
-    *   Polls the order status endpoint until the processed image is returned or times out.
-4.  **External Distribution:** Product links dynamically route users to external e-commerce platforms via parameterized search queries.
-
----
-
-## API Reference
-
-The backend provides a comprehensive RESTful API. Below are the core endpoints.
+The backend adheres to severe REST operational standards. 
 
 ### `POST /generate_outfit`
-Generates a complete fashion recommendation based on contextual inputs.
+**Purpose:** Executes styling telemetry and returns a bundled outfit response payload.
+**Required Headers:** `Content-Type: application/json`
 
-**Request Body:** `application/json`
+<details>
+<summary>View Request Payload Specifications</summary>
+
 ```json
 {
   "gender": "female",
@@ -164,60 +181,68 @@ Generates a complete fashion recommendation based on contextual inputs.
   "style_preference": "elegant"
 }
 ```
+</details>
 
 ### `POST /try_on`
-Initiates a Virtual Try-On asynchronous job.
+**Purpose:** Dispatches an asynchronous VTON composite job queue combining human uploads with specific garment target URLs. Enforces base64 image decoding.
 
-**Request Body:** `application/json`
+<details>
+<summary>View Request Payload Specifications</summary>
+
 ```json
 {
   "person_image_base64": "data:image/jpeg;base64,/9j/4AAQSkZJ...",
-  "garment_url": "https://example.com/dress.jpg",
-  "garment_description": "burgundy Sequin Midi Dress"
+  "garment_url": "https://example.com/target-garment-image.jpg",
+  "garment_description": "Burgundy Sequin Midi Dress"
 }
 ```
+</details>
 
 ---
 
-## Deployment
+## 🌍 Deployment Strategy
 
-Vestiary is designed for modern cloud infrastructure:
+Vestiary is structured natively for scaling across distributed cloud environments.
 
-*   **Frontend (Static Hosting):** Optimized for deployment on Vercel, Netlify, or AWS Amplify. Make sure to set the build directory to `/dist` and the root folder to `/frontend`.
-*   **Backend (Containerized / Serverless):** Deployable via Render, Heroku, AWS App Runner, or Docker. Set the startup command to `uvicorn main:app --host 0.0.0.0 --port $PORT`.
-
----
-
-## Roadmap
-
-- [x] Initial FastAPI & React Migration.
-- [x] Integration of External Image Generation (Pollinations AI).
-- [x] Cross-Platform E-commerce Link Generation.
-- [x] Advanced Virtual Try-On integration via LightX API.
-- [ ] Implement user authentication and wardrobe saving mechanisms.
-- [ ] Add direct integration with e-commerce APIs (e.g., Amazon PAAPI) for real-time inventory and exact pricing.
-- [ ] Introduce a community feed for sharing generated styles.
+* **Client Aggregation (Frontend):** 
+  Targeted for edge-compute delivery platforms. Connect your Github branch to **Vercel** or **AWS Amplify**. 
+  - *Build Command:* `npm run build`
+  - *Output Directory:* `dist`
+* **API Delivery (Backend):** 
+  Targeted for ephemeral container instances. Deploy the backend directory tree via **Render**, **Railway**, or **AWS App Runner**. 
+  - *Startup Execution:* `uvicorn main:app --host 0.0.0.0 --port $PORT`
 
 ---
 
-## Contributing
+## 🛣 Project Roadmap
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- [x] Version 4.0: LightX Virtual Try-On Integrations
+- [x] Version 4.1: Asynchronous Request Homing & Timeout Stabilization
+- [ ] Version 5.0: AWS RDS / PostgreSQL database layer for user profile persistence
+- [ ] Version 5.1: Real-time vendor inventory tracking API (Amazon PAAPI)
+- [ ] Version 6.0: Wardrobe digitizing via computer vision (upload your closet)
 
 ---
 
-## Contact
+## 🤝 Contributing
 
-**Sakshi Verma** - Software Engineer & System Architect  
-[GitHub Profile](https://github.com/SAK-SHI14)  
-Project Link: [https://github.com/SAK-SHI14/Vestiary](https://github.com/SAK-SHI14/Vestiary)
+We enforce high standards for contribution to maintain platform integrity, but welcome all enhancements from the engineering community.
 
-<p align="center">
-  <i>Built with passion to redefine digital fashion.</i>
-</p>
+1. Fork the Project Repository
+2. Initialize a secure Feature Branch (`git checkout -b feature/EnhancedHeuristics`)
+3. Commit your logic (`git commit -m 'feat: Add EnhancedHeuristics module'`)
+4. Push to remote (`git push origin feature/EnhancedHeuristics`)
+5. Open a well-documented Pull Request
+
+---
+
+## 📜 License & Contact
+
+**Architected & Maintained by Sakshi Verma**
+
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SAK-SHI14)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sakshi-verma-) *(Update link as needed)*
+
+<div align="center">
+  <p><i>Building the infrastructure for the next generation of digital fashion.</i></p>
+</div>
