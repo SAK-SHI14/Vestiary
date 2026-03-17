@@ -17,7 +17,7 @@ def load_data(csv_path='styles.csv'):
     
     # Image Paths (Handling the nested structure)
     # Assumes images are in 'images/images/' relative to where app.py is run
-    df['image_path'] = 'images/images/' + df['id'].astype(str) + '.jpg'
+    df['image_path'] = 'images/' + df['id'].astype(str) + '.jpg'
     
     # Derived Columns
     df['color_group'] = df['baseColour'].apply(map_color_group)

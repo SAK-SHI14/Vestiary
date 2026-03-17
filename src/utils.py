@@ -41,7 +41,10 @@ class Upscaler:
             return sharp
 
 def get_upscaled_image(image_path):
-    upscaler = Upscaler()
-    result = upscaler.upscale(image_path)
-    # Convert from BGR (OpenCV) to RGB (Streamlit)
-    return cv2.cvtColor(result, cv2.COLOR_BGR2RGB)
+    if not os.path.exists(image_path):
+        return None
+    # Temporarily disable upscaling to avoid artifacts on thumbnails
+    img = cv2.imread(image_path)
+    if img is None:
+        return None
+    return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
